@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<!--********************************************-->
+<!--*       Generated from PreTeXt source      *-->
+<!--*                                          *-->
+<!--*         https://pretextbook.org          *-->
+<!--*                                          *-->
+<!--********************************************-->
+<html lang="en-US" dir="ltr" data-legacy-colorscheme="blue_red">
+<head xmlns:og="http://ogp.me/ns#" xmlns:book="https://ogp.me/ns/book#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Debugging</title>
+<meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="book">
+<meta property="book:title" content="Discrete Math with SageMath">
+<meta property="book:author" content="Zunaid Ahmed, Hellen Colman, Samuel Lubliner">
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script><script>
+var runestoneMathReady = new Promise((resolve) => window.rsMathReady = resolve);
+window.MathJax = {
+  "tex": {
+    "inlineMath": [
+      [
+        "\\(",
+        "\\)"
+      ]
+    ],
+    "tags": "none",
+    "tagSide": "right",
+    "tagIndent": ".8em",
+    "packages": {
+      "[+]": [
+        "base",
+        "extpfeil",
+        "ams",
+        "amscd",
+        "color",
+        "newcommand",
+        "knowl"
+      ]
+    }
+  },
+  "options": {
+    "ignoreHtmlClass": "tex2jax_ignore|ignore-math",
+    "processHtmlClass": "process-math",
+    "renderActions": {
+      "findScript": [
+        10,
+        function (doc) {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(function(node) {
+                var display = !!node.type.match(/; *mode=display/);
+                var math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                var text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = {node: text, delim: '', n: 0};
+                math.end = {node: text, delim: '', n: 0};
+                doc.math.push(math);
+            });
+        },
+        ""
+      ]
+    }
+  },
+  "chtml": {
+    "scale": 0.98,
+    "mtextInheritFont": true
+  },
+  "loader": {
+    "load": [
+      "input/asciimath",
+      "[tex]/extpfeil",
+      "[tex]/amscd",
+      "[tex]/color",
+      "[tex]/newcommand",
+      "[pretext]/mathjaxknowl3.js"
+    ],
+    "paths": {
+      "pretext": "_static/pretext/js/lib"
+    }
+  },
+  "startup": {
+    pageReady() {
+      return MathJax.startup.defaultPageReady().then(function () {
+      console.log("in ready function");
+      rsMathReady();
+      }
+    )}
+  }
+};
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script><script>// Make *any* div with class 'sagecell-sage' an executable Sage cell
+// Their results will be linked, only within language type
+sagecell.makeSagecell({
+  "inputLocation": "div.sagecell-sage",
+  "linked": true,
+  "linkKey": "linked-sage",
+  "autoeval": false,
+  "languages": [
+    "sage"
+  ],
+  "evalButtonText": "Evaluate (Sage)"
+});
+</script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-4xUl/d6D6THrAnXAwGajXkoWaeMNwEKK4iNfq5DotEbLPAfk6FSxSP3ydNxqDgCw1c/0Z1Jg6L8h2j+++9BZmg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="lunr-pretext-search-index.js" async=""></script><script src="_static/pretext/js/pretext_search.js"></script><script src="_static/pretext/js/lib/jquery.min.js"></script><script src="_static/pretext/js/lib/jquery.sticky.js"></script><script src="_static/pretext/js/lib/jquery.espy.min.js"></script><script src="_static/pretext/js/pretext.js"></script><script src="_static/pretext/js/pretext_add_on.js?x=1"></script><script src="_static/pretext/js/user_preferences.js"></script><script src="_static/pretext/js/lib/knowl.js"></script><!--knowl.js code controls Sage Cells within knowls--><script>sagecellEvalName='Evaluate (Sage)';
+</script><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<link href="https://fonts.cdnfonts.com/css/dejavu-serif" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wdth,wght@75..100,300..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;" rel="stylesheet">
+<link href="_static/pretext/css/theme.css" rel="stylesheet" type="text/css">
+<link href="_static/pretext/css/ol-markers.css" rel="stylesheet" type="text/css">
+<!--** eBookCongig is necessary to configure interactive       **-->
+<!--** Runestone components to run locally in reader's browser **-->
+<!--** No external communication:                              **-->
+<!--**     log level is 0, Runestone Services are disabled     **-->
+<script type="text/javascript">
+eBookConfig = {};
+eBookConfig.useRunestoneServices = false;
+eBookConfig.host = 'http://127.0.0.1:8000';
+eBookConfig.course = 'PTX_Course_Title_Here';
+eBookConfig.basecourse = 'PTX_Base_Course';
+eBookConfig.isLoggedIn = false;
+eBookConfig.email = '';
+eBookConfig.isInstructor = false;
+eBookConfig.logLevel = 0;
+eBookConfig.username = '';
+eBookConfig.readings = null;
+eBookConfig.activities = null;
+eBookConfig.downloadsEnabled = false;
+eBookConfig.allow_pairs = false;
+eBookConfig.enableScratchAC = false;
+eBookConfig.build_info = "";
+eBookConfig.python3 = null;
+eBookConfig.runestone_version = '7.5.6';
+eBookConfig.jobehost = '';
+eBookConfig.proxyuri_runs = '';
+eBookConfig.proxyuri_files = '';
+eBookConfig.enable_chatcodes =  false;
+</script>
+<!--*** Runestone Services ***-->
+<script src="_static/prefix-runtime.82032a8574f6ce75.bundle.js"></script><script src="_static/prefix-723.3e6434f80549315a.bundle.js"></script><script src="_static/prefix-runestone.f6bda0c0ccce4835.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-723.3bccd435914aa0ff.css">
+<link rel="stylesheet" type="text/css" href="_static/prefix-runestone.6a985cbf816db5c7.css">
+</head>
+<body id="changeme" class="pretext book ignore-math">
+<a class="assistive" href="#ptx-content">Skip to main content</a><header id="ptx-masthead" class="ptx-masthead"><div class="ptx-banner"><div class="title-container">
+<h1 class="heading"><a href="Discrete-Math-with-SageMath.html"><span class="title">Discrete Math with SageMath:</span> <span class="subtitle">Learn math with open-source software</span></a></h1>
+<p class="byline">Zunaid Ahmed, Hellen Colman, Samuel Lubliner</p>
+</div></div></header><nav id="ptx-navbar" class="ptx-navbar navbar"><div class="ptx-navbar-contents">
+<button class="toc-toggle button" title="Contents"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5d2;</span><span class="name">Contents</span></button><a class="index-button button" href="backmatter-4.html" title="Index"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe88e;</span><span class="name">Index</span></a><div class="searchbox">
+<div class="searchwidget"><button id="searchbutton" class="searchbutton button" type="button" title="Search book"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe8b6;</span><span class="name">Search Book</span></button></div>
+<div id="searchresultsplaceholder" class="searchresultsplaceholder" style="display: none">
+<div class="search-results-controls">
+<input aria-label="Search term" id="ptxsearch" class="ptxsearch" type="text" name="terms" placeholder="Search term"><button title="Close search" id="closesearchresults" class="closesearchresults"><span class="material-symbols-outlined">close</span></button>
+</div>
+<h2 class="search-results-heading">Search Results: </h2>
+<div id="searchempty" class="searchempty"><span>No results.</span></div>
+<ol id="searchresults" class="searchresults"></ol>
+</div>
+</div>
+<span class="nav-other-controls"></span><span class="treebuttons"><a class="previous-button button" href="iteration.html" title="Previous"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></a><a class="up-button button" href="ch-getting-started.html" title="Up"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Up</span></a><a class="next-button button" href="defining-functions.html" title="Next"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></a></span>
+</div></nav><div id="latex-macros" class="hidden-content process-math" style="display:none"><span class="process-math">\(\newcommand{\N}{\mathbb N} \newcommand{\Z}{\mathbb Z} \newcommand{\Q}{\mathbb Q} \newcommand{\R}{\mathbb R}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\definecolor{fillinmathshade}{gray}{0.9}
+\newcommand{\fillinmath}[1]{\mathchoice{\colorbox{fillinmathshade}{$\displaystyle     \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\textstyle        \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptstyle      \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptscriptstyle\phantom{\,#1\,}$}}}
+\)</span></div>
+<div class="ptx-page">
+<div id="ptx-sidebar" class="ptx-sidebar"><nav id="ptx-toc" class="ptx-toc depth2"><ul class="structural toc-item-list contains-active">
+<li class="toc-item toc-frontmatter">
+<div class="toc-title-box"><a href="frontmatter.html" class="internal"><span class="title">Front Matter</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-preface"><div class="toc-title-box"><a href="frontmatter-3.html" class="internal"><span class="title">Preface</span></a></div></li>
+<li class="toc-item toc-acknowledgement"><div class="toc-title-box"><a href="frontmatter-4.html" class="internal"><span class="title">Acknowledgements</span></a></div></li>
+<li class="toc-item toc-preface"><div class="toc-title-box"><a href="frontmatter-5.html" class="internal"><span class="title">From the Student Authors</span></a></div></li>
+<li class="toc-item toc-preface">
+<div class="toc-title-box"><a href="authors.html" class="internal"><span class="title">Authors and Contributors</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-contributors"><div class="toc-title-box"><a href="authors.html#authors-2" class="internal"><span class="title"></span></a></div></li></ul>
+</li>
+<li class="toc-item toc-colophon"><div class="toc-title-box"><a href="front-colophon.html" class="internal"><span class="title">Colophon</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-chapter contains-active">
+<div class="toc-title-box"><a href="ch-getting-started.html" class="internal"><span class="codenumber">1</span> <span class="title">Getting Started</span></a></div>
+<ul class="structural toc-item-list contains-active">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="about-sage.html" class="internal"><span class="codenumber">1.1</span> <span class="title">Intro to Sage</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="about-sage.html#subsec-Sage-as-a-Calculator" class="internal"><span class="codenumber">1.1.1</span> <span class="title">Sage as a Calculator</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="about-sage.html#subsec-Variables-and-Names" class="internal"><span class="codenumber">1.1.2</span> <span class="title">Variables and Names</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="displaying.html" class="internal"><span class="codenumber">1.2</span> <span class="title">Display Values</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="OOP.html" class="internal"><span class="codenumber">1.3</span> <span class="title">Object-Oriented Programming</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="data-types.html" class="internal"><span class="codenumber">1.4</span> <span class="title">Data Types</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="iteration.html" class="internal"><span class="codenumber">1.5</span> <span class="title">Iteration</span></a></div></li>
+<li class="toc-item toc-section active"><div class="toc-title-box"><a href="debugging.html" class="internal"><span class="codenumber">1.6</span> <span class="title">Debugging</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="defining-functions.html" class="internal"><span class="codenumber">1.7</span> <span class="title">Defining Functions</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="documentation.html" class="internal"><span class="codenumber">1.8</span> <span class="title">Documentation</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sage-browser.html" class="internal"><span class="codenumber">1.9</span> <span class="title">Run Sage in the browser</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-set-theory.html" class="internal"><span class="codenumber">2</span> <span class="title">Set Theory</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="creating-sets.html" class="internal"><span class="codenumber">2.1</span> <span class="title">Creating Sets</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="creating-sets.html#subsec-Ways-to-create-a-set" class="internal"><span class="codenumber">2.1.1</span> <span class="title">Set Definitions</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="creating-sets.html#subsec-set-builder-notation" class="internal"><span class="codenumber">2.1.2</span> <span class="title">Set Builder Notation</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="creating-sets.html#subsec-subsets" class="internal"><span class="codenumber">2.1.3</span> <span class="title">Subsets</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="creating-sets.html#creating-sets-5" class="internal"><span class="codenumber">2.1.4</span> <span class="title">Set Membership Check</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="cardinality.html" class="internal"><span class="codenumber">2.2</span> <span class="title">Cardinality</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-operation-on-sets.html" class="internal"><span class="codenumber">2.3</span> <span class="title">Operations on Sets</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-operation-on-sets.html#sec-operation-on-sets-2" class="internal"><span class="codenumber">2.3.1</span> <span class="title">Union of Sets</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-operation-on-sets.html#sec-operation-on-sets-3" class="internal"><span class="codenumber">2.3.2</span> <span class="title">Intersection of Sets</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-operation-on-sets.html#sec-operation-on-sets-4" class="internal"><span class="codenumber">2.3.3</span> <span class="title">Difference of Sets</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-operation-on-sets.html#sec-operation-on-sets-5" class="internal"><span class="codenumber">2.3.4</span> <span class="title">Multiple Sets</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-operation-on-sets.html#sec-operation-on-sets-6" class="internal"><span class="codenumber">2.3.5</span> <span class="title">Complement of Sets</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-operation-on-sets.html#sec-operation-on-sets-7" class="internal"><span class="codenumber">2.3.6</span> <span class="title">Cartesian Product of Sets</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-operation-on-sets.html#sec-operation-on-sets-8" class="internal"><span class="codenumber">2.3.7</span> <span class="title">Power Sets</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-operation-on-sets.html#subsec-Viewing-Power-Sets" class="internal"><span class="codenumber">2.3.8</span> <span class="title">Viewing Power Sets</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-combinatorics.html" class="internal"><span class="codenumber">3</span> <span class="title">Combinatorics</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-combinatorics.html" class="internal"><span class="codenumber">3.1</span> <span class="title">Combinatorics</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-combinatorics.html#sec-combinatorics-2" class="internal"><span class="codenumber">3.1.1</span> <span class="title">Factorial Function</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-combinatorics.html#sec-combinatorics-3" class="internal"><span class="codenumber">3.1.2</span> <span class="title">Combinations</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-combinatorics.html#sec-combinatorics-4" class="internal"><span class="codenumber">3.1.3</span> <span class="title">Permutations</span></a></div></li>
+</ul>
+</li></ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-logic.html" class="internal"><span class="codenumber">4</span> <span class="title">Logic</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-logical-operation.html" class="internal"><span class="codenumber">4.1</span> <span class="title">Logical Operators</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-logical-operation.html#sec-logical-operation-8" class="internal"><span class="codenumber">4.1.1</span> <span class="title">Boolean Formula</span></a></div></li></ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sec-truth-table.html" class="internal"><span class="codenumber">4.2</span> <span class="title">Truth Tables</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-tautology.html" class="internal"><span class="codenumber">4.3</span> <span class="title">Analyzing Logical Equivalences</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-tautology.html#sec-tautology-2" class="internal"><span class="codenumber">4.3.1</span> <span class="title">Equivalent Statements</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-tautology.html#sec-tautology-3" class="internal"><span class="codenumber">4.3.2</span> <span class="title">Tautologies</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-tautology.html#sec-tautology-4" class="internal"><span class="codenumber">4.3.3</span> <span class="title">Contradictions</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-relations.html" class="internal"><span class="codenumber">5</span> <span class="title">Relations</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="intro-relations.html" class="internal"><span class="codenumber">5.1</span> <span class="title">Introduction to Relations</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="relations-on-a-set.html" class="internal"><span class="codenumber">5.2</span> <span class="title">Relations on a set</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="digraphs.html" class="internal"><span class="codenumber">5.3</span> <span class="title">Digraphs</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="properties.html" class="internal"><span class="codenumber">5.4</span> <span class="title">Properties</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="properties.html#subsec-reflexive" class="internal"><span class="codenumber">5.4.1</span> <span class="title">Reflexive</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="properties.html#subsec-symmetric" class="internal"><span class="codenumber">5.4.2</span> <span class="title">Symmetric</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="properties.html#subsec-anti-symmetric" class="internal"><span class="codenumber">5.4.3</span> <span class="title">Antisymmetric</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="properties.html#subsec-transitive" class="internal"><span class="codenumber">5.4.4</span> <span class="title">Transitive</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="equivalence.html" class="internal"><span class="codenumber">5.5</span> <span class="title">Equivalence</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="partial-order.html" class="internal"><span class="codenumber">5.6</span> <span class="title">Partial Order</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-functions.html" class="internal"><span class="codenumber">6</span> <span class="title">Functions</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-functions.html" class="internal"><span class="codenumber">6.1</span> <span class="title">Functions</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-functions.html#sec-functions-4" class="internal"><span class="codenumber">6.1.1</span> <span class="title">Graphical Representations</span></a></div></li></ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-recursion.html" class="internal"><span class="codenumber">6.2</span> <span class="title">Recursion</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-recursion.html#sec-recursion-4" class="internal"><span class="codenumber">6.2.1</span> <span class="title">Recursion in Sequences</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-recursion.html#sec-recursion-5" class="internal"><span class="codenumber">6.2.2</span> <span class="title">Recursion with Binomial Coefficients</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-graph-theory.html" class="internal"><span class="codenumber">7</span> <span class="title">Graph Theory</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-basics.html" class="internal"><span class="codenumber">7.1</span> <span class="title">Basics</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-basics.html#sec-basics-2" class="internal"><span class="codenumber">7.1.1</span> <span class="title">Graph Definition</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-basics.html#sec-basics-3" class="internal"><span class="codenumber">7.1.2</span> <span class="title">Weighted Graphs</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-basics.html#sec-basics-4" class="internal"><span class="codenumber">7.1.3</span> <span class="title">Graph Characteristics</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-basics.html#sec-basics-5" class="internal"><span class="codenumber">7.1.4</span> <span class="title">Graphs and Matrices</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-basics.html#sec-basics-6" class="internal"><span class="codenumber">7.1.5</span> <span class="title">Manipulating Graphs in Sage</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-plot-options.html" class="internal"><span class="codenumber">7.2</span> <span class="title">Plot Options</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-plot-options.html#subsec-Size" class="internal"><span class="codenumber">7.2.1</span> <span class="title">Size</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-plot-options.html#subsec-Edge-Labels" class="internal"><span class="codenumber">7.2.2</span> <span class="title">Edge Labels</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-plot-options.html#subsec-Color" class="internal"><span class="codenumber">7.2.3</span> <span class="title">Color</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-plot-options.html#subsec-Layout" class="internal"><span class="codenumber">7.2.4</span> <span class="title">Layout</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-plot-options.html#subsec-View-in-New-Tab" class="internal"><span class="codenumber">7.2.5</span> <span class="title">View in a New Tab</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-plot-options.html#subsec-Edge-Style" class="internal"><span class="codenumber">7.2.6</span> <span class="title">Edge Style</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-plot-options.html#subsec-3-Dimensional" class="internal"><span class="codenumber">7.2.7</span> <span class="title">3-Dimensional</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="paths.html" class="internal"><span class="codenumber">7.3</span> <span class="title">Paths</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="isomorphism.html" class="internal"><span class="codenumber">7.4</span> <span class="title">Isomorphism</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="euler-and-hamilton.html" class="internal"><span class="codenumber">7.5</span> <span class="title">Euler and Hamilton</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="euler-and-hamilton.html#subsec-Euler" class="internal"><span class="codenumber">7.5.1</span> <span class="title">Euler</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="euler-and-hamilton.html#subsec-Hamilton" class="internal"><span class="codenumber">7.5.2</span> <span class="title">Hamilton</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-graphs-in-action.html" class="internal"><span class="codenumber">7.6</span> <span class="title">Graphs in Action</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-graphs-in-action.html#subsec-Bike-Courier-Delivery-Route-Problem" class="internal"><span class="codenumber">7.6.1</span> <span class="title">Bike Courier Delivery Route Problem</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-graphs-in-action.html#subsec-locations" class="internal"><span class="codenumber">7.6.2</span> <span class="title">Locations</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-graphs-in-action.html#subsec-Graph" class="internal"><span class="codenumber">7.6.3</span> <span class="title">Graph</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-trees.html" class="internal"><span class="codenumber">8</span> <span class="title">Trees</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="definitions-and-theorems.html" class="internal"><span class="codenumber">8.1</span> <span class="title">Definitions and Theorems</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="search-algorithms.html" class="internal"><span class="codenumber">8.2</span> <span class="title">Search Algorithms</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-trees-in-action.html" class="internal"><span class="codenumber">8.3</span> <span class="title">Trees in Action</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-trees-in-action.html#subsec-Railway-Problem" class="internal"><span class="codenumber">8.3.1</span> <span class="title">Railway Problem</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-trees-in-action.html#subsec-location-distances" class="internal"><span class="codenumber">8.3.2</span> <span class="title">Location Distances</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-trees-in-action.html#subsec-CCC-Graph" class="internal"><span class="codenumber">8.3.3</span> <span class="title">Graph</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-trees-in-action.html#subsec-Railway" class="internal"><span class="codenumber">8.3.4</span> <span class="title">Railway</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-trees-in-action.html#subsec-Conclusion" class="internal"><span class="codenumber">8.3.5</span> <span class="title">Conclusion</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-lattices.html" class="internal"><span class="codenumber">9</span> <span class="title">Lattices</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-definition.html" class="internal"><span class="codenumber">9.1</span> <span class="title">Lattices</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-definition.html#definition" class="internal"><span class="codenumber">9.1.1</span> <span class="title">Definition</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-definition.html#join" class="internal"><span class="codenumber">9.1.2</span> <span class="title">Join</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-definition.html#meet" class="internal"><span class="codenumber">9.1.3</span> <span class="title">Meet</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-definition.html#subsec-Divisor-Lattice" class="internal"><span class="codenumber">9.1.4</span> <span class="title">Divisor Lattice</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-tables-of-operations.html" class="internal"><span class="codenumber">9.2</span> <span class="title">Tables of Operations</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-tables-of-operations.html#meet-operation-table" class="internal"><span class="codenumber">9.2.1</span> <span class="title">Meet Operation Table</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-tables-of-operations.html#join-operation-table" class="internal"><span class="codenumber">9.2.2</span> <span class="title">Join Operation Table</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-boolean-algebra.html" class="internal"><span class="codenumber">10</span> <span class="title">Boolean Algebra</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sec-boolean-algebra.html" class="internal"><span class="codenumber">10.1</span> <span class="title">Boolean Algebra</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sec-boolean-functions.html" class="internal"><span class="codenumber">10.2</span> <span class="title">Boolean functions</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-logic-gates.html" class="internal"><span class="codenumber">11</span> <span class="title">Logic Gates</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-intro-logic-gates.html" class="internal"><span class="codenumber">11.1</span> <span class="title">Logic Gates</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-intro-logic-gates.html#subsec-AND-Gate" class="internal"><span class="codenumber">11.1.1</span> <span class="title">AND Gate</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-intro-logic-gates.html#subsec-OR-GATE" class="internal"><span class="codenumber">11.1.2</span> <span class="title">OR GATE</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-intro-logic-gates.html#subsec-NOT-Gate" class="internal"><span class="codenumber">11.1.3</span> <span class="title">NOT Gate</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-intro-logic-gates.html#subsec-NAND-Gate" class="internal"><span class="codenumber">11.1.4</span> <span class="title">NAND Gate</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-intro-logic-gates.html#subsec-NOR-Gate" class="internal"><span class="codenumber">11.1.5</span> <span class="title">NOR Gate</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-intro-logic-gates.html#subsec-XOR-Gate" class="internal"><span class="codenumber">11.1.6</span> <span class="title">XOR Gate</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-intro-logic-gates.html#subsec-XNOR-Gate" class="internal"><span class="codenumber">11.1.7</span> <span class="title">XNOR Gate</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sec-combined-logic-gates.html" class="internal"><span class="codenumber">11.2</span> <span class="title">Combinations of Logic Gates</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-practical-applications.html" class="internal"><span class="codenumber">11.3</span> <span class="title">Logic Gates in Action</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-practical-applications.html#sec-vote-encoder" class="internal"><span class="codenumber">11.3.1</span> <span class="title">Vote Encoder</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-practical-applications.html#sec-vote-counter" class="internal"><span class="codenumber">11.3.2</span> <span class="title">Vote Counter</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-practical-applications.html#sec-majority-decider" class="internal"><span class="codenumber">11.3.3</span> <span class="title">Majority Decider</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-practical-applications.html#sec-complete-voting-machine" class="internal"><span class="codenumber">11.3.4</span> <span class="title">Combining Everything: The Complete Voting Machine</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-finite-state-machines.html" class="internal"><span class="codenumber">12</span> <span class="title">Finite State Machines</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-state-machine-definition.html" class="internal"><span class="codenumber">12.1</span> <span class="title">Definitions and Components</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-state-machine-definition.html#sm-definition" class="internal"><span class="codenumber">12.1.1</span> <span class="title">Mealy State Machine</span></a></div></li>
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sec-state-machine-definition.html#sec-state-machine-definition-4" class="internal"><span class="codenumber">12.1.2</span> <span class="title">Other Types of Finite State Machines</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sec-state-machine-definition.html#sec-state-machine-definition-4-2" class="internal"><span class="codenumber">12.1.2.1</span> <span class="title">Moore Machine</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sec-state-machine-definition.html#sec-state-machine-definition-4-3" class="internal"><span class="codenumber">12.1.2.2</span> <span class="title">Finite-State Automaton</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sec-state-machine-definition.html#sec-state-machine-definition-4-4" class="internal"><span class="codenumber">12.1.2.3</span> <span class="title">Deterministic Finite Automaton (DFA)</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sec-state-machine-definition.html#sec-state-machine-definition-4-5" class="internal"><span class="codenumber">12.1.2.4</span> <span class="title">Nondeterministic Finite Automaton (NFA)</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sec-state-machine-definition.html#sec-state-machine-definition-4-6" class="internal"><span class="codenumber">12.1.2.5</span> <span class="title">Turing Machine</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html" class="internal"><span class="codenumber">12.2</span> <span class="title">Finite State Machines in Sage</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html#sec-modeling-finite-state-machines-4" class="internal"><span class="codenumber">12.2.1</span> <span class="title">The Elevator State Machine</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html#sec-modeling-finite-state-machines-4-4" class="internal"><span class="codenumber">12.2.1.1</span> <span class="title">Description of the Elevator FSM</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html#sec-modeling-finite-state-machines-4-5" class="internal"><span class="codenumber">12.2.1.2</span> <span class="title">Elements of the Elevator FSM</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html#sec-modeling-finite-state-machines-4-6" class="internal"><span class="codenumber">12.2.1.3</span> <span class="title">Graph Model of the Elevator FSM</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html#sec-modeling-finite-state-machines-4-7" class="internal"><span class="codenumber">12.2.1.4</span> <span class="title">Run the Elevator State Machine</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html#sec-modeling-finite-state-machines-5" class="internal"><span class="codenumber">12.2.2</span> <span class="title">The Traffic Light State Machine</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html#sec-modeling-finite-state-machines-5-4" class="internal"><span class="codenumber">12.2.2.1</span> <span class="title">Description of the Traffic Light FSM</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html#sec-modeling-finite-state-machines-5-5" class="internal"><span class="codenumber">12.2.2.2</span> <span class="title">Using `FiniteStateMachine’ Module</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-modeling-finite-state-machines.html#sec-modeling-finite-state-machines-5-6" class="internal"><span class="codenumber">12.2.2.3</span> <span class="title">Using `Transducer’ Module</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sec-fsm-in-action.html" class="internal"><span class="codenumber">12.3</span> <span class="title">State Machine in Action</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-fsm-in-action.html#sec-fsm-in-action-4" class="internal"><span class="codenumber">12.3.1</span> <span class="title">Traffic Light Controller: Problem Overview</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-fsm-in-action.html#sec-fsm-in-action-5" class="internal"><span class="codenumber">12.3.2</span> <span class="title">Elements of the FSM Model</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-fsm-in-action.html#sec-fsm-in-action-6" class="internal"><span class="codenumber">12.3.3</span> <span class="title">Construct the FSM</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-fsm-in-action.html#sec-fsm-in-action-7" class="internal"><span class="codenumber">12.3.4</span> <span class="title">Display the State Transition Graph</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sec-fsm-in-action.html#sec-fsm-in-action-8" class="internal"><span class="codenumber">12.3.5</span> <span class="title">Simulate a Full Cycle Run of the FSM</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-backmatter">
+<div class="toc-title-box"><a href="backmatter.html" class="internal"><span class="title">Back Matter</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-references"><div class="toc-title-box"><a href="refs.html" class="internal"><span class="title">References</span></a></div></li>
+<li class="toc-item toc-colophon"><div class="toc-title-box"><a href="backmatter-3.html" class="internal"><span class="title">Colophon</span></a></div></li>
+<li class="toc-item toc-index"><div class="toc-title-box"><a href="backmatter-4.html" class="internal"><span class="title">Index</span></a></div></li>
+</ul>
+</li>
+</ul></nav></div>
+<main class="ptx-main"><div id="ptx-content" class="ptx-content"><section class="section" id="debugging"><h2 class="heading hide-type">
+<span class="type">Section</span><span class="space"> </span><span class="codenumber">1.6</span><span class="space"> </span><span class="title">Debugging</span>
+</h2>
+<div class="para logical" id="debugging-3">
+<div class="para">Error messages are an inevitable part of programming. When you make a syntax error and see a message, read it carefully for clues about the cause of the error. While some messages are helpful and descriptive, others may seem cryptic or confusing. With practice, you will develop valuable skills for debugging your code and resolving errors. Not all errors will produce an error message. Logical errors occur when the syntax is correct, but the program does not produce the expected output. Remember, mistakes are learning opportunities, and everyone makes them. Here are some tips for debugging your code:</div>
+<ul class="disc" id="debugging-3-1">
+<li id="debugging-3-1-1"><div class="para" id="debugging-3-1-1-1">Read the error message carefully for information to help you identify and fix the problem.</div></li>
+<li id="debugging-3-1-2"><div class="para" id="debugging-3-1-2-1">Study the documentation.</div></li>
+<li id="debugging-3-1-3"><div class="para" id="debugging-3-1-3-1">Google the error message. Someone else has likely encountered the same issue.</div></li>
+<li id="debugging-3-1-4"><div class="para" id="debugging-3-1-4-1">Search for previous posts on Sage forums.</div></li>
+<li id="debugging-3-1-5"><div class="para" id="debugging-3-1-5-1">Take a break and return with a fresh perspective.</div></li>
+<li id="debugging-3-1-6"><div class="para" id="debugging-3-1-6-1">If you are still stuck after trying these steps, ask the Sage community.</div></li>
+</ul>
+</div>
+<div class="para" id="debugging-4">Let’s dive in and make some mistakes together!</div>
+<div id="debugging-5" class="ptx-sagecell sagecell-sage"><script type="text/x-sage"># Run this cell and see what happens
+1message = "Hello, World!"
+print(1message)
+</script></div>
+<div class="para" id="debugging-6">Why didn’t this print <code class="code-inline tex2jax_ignore">Hello, World!</code> on the screen? The error message informed us of a <code class="code-inline tex2jax_ignore">SyntaxError</code>. While the phrase <code class="code-inline tex2jax_ignore">invalid decimal literal</code> may seem confusing, the key issue here is the invalid variable name. Valid identifiers must start with a letter or underscore. They cannot begin with a number or use any special characters. Let’s correct the variable name by using a valid identifier.</div>
+<div id="debugging-7" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">message = "Hello, World!"
+print(message)
+</script></div>
+<div class="para" id="debugging-8">Here is another error:</div>
+<div id="debugging-9" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">print(Hi)
+</script></div>
+<div class="para" id="debugging-10">In this case, we encounter a <code class="code-inline tex2jax_ignore">NameError</code> because <code class="code-inline tex2jax_ignore">Hi</code> is not defined. Sage assumes that <code class="code-inline tex2jax_ignore">Hi</code> is a variable because there are no quotes. We can make <code class="code-inline tex2jax_ignore">Hi</code> a string by enclosing it in quotes.</div>
+<div id="debugging-11" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">print("Hi")
+</script></div>
+<div class="para" id="debugging-12">Alternatively, if we intended <code class="code-inline tex2jax_ignore">Hi</code> to be a variable, we can assign a value to it before printing.</div>
+<div id="debugging-13" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">Hi = "Hello, World!"
+print(Hi)
+</script></div>
+<div class="para" id="debugging-14">Reading the documentation is essential to understanding how to use methods correctly. If we incorrectly use a method, we will likely get a <code class="code-inline tex2jax_ignore">NameError</code>, <code class="code-inline tex2jax_ignore">AttributeError</code>, <code class="code-inline tex2jax_ignore">TypeError</code>, or <code class="code-inline tex2jax_ignore">ValueError</code>, depending on the mistake.</div>
+<div class="para" id="debugging-15">Here is an example of a <code class="code-inline tex2jax_ignore">NameError</code>:</div>
+<div id="debugging-16" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">l = [6, 1, 5, 2, 4, 3]
+sort(l)
+</script></div>
+<div class="para" id="debugging-17">The <code class="code-inline tex2jax_ignore">sort()</code> method must be called on the list object using dot notation.</div>
+<div id="debugging-18" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">l = [4, 1, 2, 3]
+l.sort()
+print(l)
+</script></div>
+<div class="para" id="debugging-19">Here is an example of an <code class="code-inline tex2jax_ignore">AttributeError</code>:</div>
+<div id="debugging-20" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">l = [1, 2, 3]
+l.len()
+</script></div>
+<div class="para" id="debugging-21">Here is the correct way to use the <code class="code-inline tex2jax_ignore">len()</code> method:</div>
+<div id="debugging-22" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">l = [1, 2, 3]
+len(l)
+</script></div>
+<div class="para" id="debugging-23">Here is an example of a <code class="code-inline tex2jax_ignore">TypeError</code>:</div>
+<div id="debugging-24" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">l = [1, 2, 3]
+l.append(4, 5)
+</script></div>
+<div class="para" id="debugging-25">The <code class="code-inline tex2jax_ignore">append()</code> method only takes one argument. To add multiple elements to a list, use the <code class="code-inline tex2jax_ignore">extend()</code> method.</div>
+<div id="debugging-26" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">l = [1, 2, 3]
+l.extend([4, 5])
+print(l)
+</script></div>
+<div class="para" id="debugging-27">Here is an example of a <code class="code-inline tex2jax_ignore">ValueError</code>:</div>
+<div id="debugging-28" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">factorial(-5)
+</script></div>
+<div class="para" id="debugging-29">Although the resulting error message is lengthy, the last line informs us that the argument must be a non-negative integer.</div>
+<div id="debugging-30" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">factorial(5)
+</script></div>
+<div class="para" id="debugging-31">Finally, we will consider a logical error. If your task is to print the numbers from <span class="process-math">\(1\)</span> to <span class="process-math">\(10\text{,}\)</span> you may mistakenly write the following code:</div>
+<div id="debugging-32" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">for i in range(10):
+    print(i)
+</script></div>
+<div class="para" id="debugging-33">The output will be the numbers from <span class="process-math">\(0\)</span> to <span class="process-math">\(9\text{.}\)</span> To include <span class="process-math">\(10\text{,}\)</span> we need to adjust the range because the start is inclusive and the stop is exclusive.</div>
+<div id="debugging-34" class="ptx-sagecell sagecell-sage"><script type="text/x-sage">for i in range(1, 11):
+    print(i)
+</script></div>
+<div class="para" id="debugging-35">For more information, read the CoCalc <a class="external" href="https://github.com/sagemathinc/cocalc/wiki/MathematicalSyntaxErrors" target="_blank">article about the top mathematical syntax errors in Sage</a><details class="ptx-footnote" aria-live="polite" id="debugging-35-2"><summary class="ptx-footnote__number" title="Footnote 1.6.1"><sup> 1 </sup></summary><div class="ptx-footnote__contents" id="debugging-35-2"><code class="code-inline tex2jax_ignore">github.com/sagemathinc/cocalc/wiki/MathematicalSyntaxErrors</code></div></details>
+</div></section></div>
+<div class="ptx-content-footer">
+<a class="previous-button button" href="iteration.html" title="Previous"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></a><a class="top-button button" href="#" title="Top"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Top</span></a><a class="next-button button" href="defining-functions.html" title="Next"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></a>
+</div></main>
+</div>
+<div id="ptx-page-footer" class="ptx-page-footer">
+<a class="pretext-link" href="https://pretextbook.org" title="PreTeXt"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="338 3000 8772 6866" role="img"><title>PreTeXt logo</title><g style="stroke-width:.025in; stroke:currentColor; fill:none"><polyline points="472,3590 472,9732 " style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round; "></polyline><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,9448 A 4660 4660  0  0  1  8598  9259"></path><path style="stroke-width:174;stroke-linecap:butt;" d="M 4488,9685 A 4228 4228  0  0  0   472  9732"></path><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,3590 A 4241 4241  0  0  1  8598  3496"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,3496  A 4241 4241  0  0  1  4724  3590"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,9259  A 4507 4507  0  0  1  4724  9448"></path><polyline points="5385,4299 4062,8125" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8598,3496 8598,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="850,3496 850,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="4960,9685 4488,9685" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="3070,4582 1889,6141 3070,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="6418,4582 7600,6141 6418,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8976,3590 8976,9732" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><path style="stroke-width:174;stroke-linecap:butt;" d="M 4960,9685 A 4228 4228  0  0  1  8976  9732"></path></g></svg></div></a><a class="runestone-link" href="https://runestone.academy" title="Runestone Academy"><img class="logo" src="https://runestone.academy/runestone/static/images/RAIcon_cropped.png" alt="Runstone Academy logo"></a><a class="mathjax-link" href="https://www.mathjax.org" title="MathJax"><img class="logo" src="https://www.mathjax.org/badge/badge-square-2.png" alt="MathJax logo"></a>
+</div>
+</body>
+</html>
