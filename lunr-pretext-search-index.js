@@ -285,8 +285,8 @@ var ptx_lunr_docs = [
   "url": "cardinality.html",
   "type": "Section",
   "number": "2.2",
-  "title": "Cardinality",
-  "body": " Cardinality cardinality  To find the cardinality of a set, we use the cardinality() function.   Alternatively, we can use the Python len() function. Instead of returning a Sage Integer , the len() function returns a Python int .   In many cases, using Sage classes and functions will provide more functionality. In the following example, cardinality() gives us a valid output while len() does not.    "
+  "title": "Kardinal",
+  "body": " Kardinal cardinality  To find the cardinality of a set, we use the cardinality() function.   Alternatively, we can use the Python len() function. Instead of returning a Sage Integer , the len() function returns a Python int .   In many cases, using Sage classes and functions will provide more functionality. In the following example, cardinality() gives us a valid output while len() does not.    "
 },
 {
   "id": "sec-operation-on-sets",
